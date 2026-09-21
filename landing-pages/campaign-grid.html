@@ -300,7 +300,7 @@ footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:
 const EMAIL = "pmnilam@katalysmedia.asia";
 const WHATSAPP = "";
 /* Address of the demo site (a separate deployment). Empty hides the demo buttons. */
-const DEMO_URL = "https://demo.campaign.grid.com";
+const DEMO_URL = location.hostname === "localhost" ? "http://localhost:8000" : "https://demo.campaign.grid.com";
 
 document.querySelectorAll("[data-demo]").forEach((a) => {
   if (!DEMO_URL) return;
