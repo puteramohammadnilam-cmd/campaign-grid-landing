@@ -12,3 +12,4 @@ Check `Decisions/` before changing scope. Positioning source: `~/Projects/grid-e
 - No prices until the commercial lead confirms them.
 - No voter or supporter numbers. State that spending is recorded, never that compliance is advised.
 - WhatsApp number lives in the `WHATSAPP` constant; empty hides the WhatsApp buttons.
+- Demo site address lives in the `DEMO_URL` constant (currently the example `demo.campaign.grid.com`); empty hides the demo buttons.

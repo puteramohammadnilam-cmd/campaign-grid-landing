@@ -40,6 +40,7 @@ a{color:inherit}
 .mark{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.14em;font-size:.85rem;text-transform:uppercase;text-decoration:none}
 .mark svg{width:26px;height:26px}
 .bar .btn{padding:.7rem 1.1rem;font-size:.9rem}
+.bar-actions{display:flex;gap:10px}
 
 /* hero */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px 0 90px;overflow:hidden;
@@ -145,7 +146,7 @@ footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:
       <svg viewBox="0 0 40 40" fill="none" stroke="#dcb63f" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="22" height="22"/><rect x="9" y="9" width="22" height="22" transform="rotate(45 20 20)"/></svg>
       Campaign GRID
     </a>
-    <a class="btn btn-primary" href="#activate">Request activation</a>
+    <span class="bar-actions"><a class="btn btn-ghost" data-demo href="#activate" hidden>See the demo</a><a class="btn btn-primary" href="#activate">Request activation</a></span>
   </div>
 </header>
 
@@ -164,6 +165,7 @@ footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:
     <p class="subtitle">Schedule, field teams, content approval, media enquiries and expenses for one seat, kept completely apart from any office system. Set up and trained by Katalys for the candidate and the election agent.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#activate">Request activation</a>
+      <a class="btn btn-ghost" data-demo href="#activate" hidden>See the demo</a>
       <a class="btn btn-ghost" href="#ladder">See where it fits</a>
     </div>
   </div>
@@ -263,6 +265,8 @@ footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:
       <div class="direct">
         <a class="btn btn-primary" id="wa-direct" href="#" hidden>Message us on WhatsApp</a>
         <a class="btn btn-ghost" id="mail-direct" href="mailto:pmnilam@katalysmedia.asia?subject=Campaign%20GRID%20activation">Email pmnilam@katalysmedia.asia</a>
+        <a class="btn btn-ghost" data-demo href="#activate" hidden>See the live demo</a>
+        <small>The demo shows a fictional candidate. The public page is open to everyone. The team back end asks for a login, which we give you when you ask.</small>
         <small>Or fill in the form. It writes the message for you to send.</small>
       </div>
       <form id="form" novalidate>
@@ -295,6 +299,14 @@ footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:
    Digits only, with country code, e.g. "60123456789". */
 const EMAIL = "pmnilam@katalysmedia.asia";
 const WHATSAPP = "";
+/* Address of the demo site (a separate deployment). Empty hides the demo buttons. */
+const DEMO_URL = "https://demo.campaign.grid.com";
+
+document.querySelectorAll("[data-demo]").forEach((a) => {
+  if (!DEMO_URL) return;
+  a.href = DEMO_URL; a.hidden = false;
+  a.target = "_blank"; a.rel = "noopener";
+});
 
 (function contact(){
   const $ = (id) => document.getElementById(id);
