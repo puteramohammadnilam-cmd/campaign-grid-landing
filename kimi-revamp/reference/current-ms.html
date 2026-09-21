@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campaign GRID</title>
+<meta name="description" content="Satu ruang kerja untuk menjalankan kempen, diasingkan sepenuhnya daripada mana-mana sistem pejabat. Sebahagian daripada keluarga GRID, dari kerja komuniti pertama hingga jawatan eksekutif.">
+<meta property="og:title" content="Campaign GRID">
+<meta property="og:description" content="Satu ruang kerja untuk menjalankan kempen, diasingkan sepenuhnya daripada mana-mana sistem pejabat.">
+<meta name="theme-color" content="#0a1a30">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a30; --navy-mid:#0f2444; --navy-line:rgba(255,255,255,.10);
+  --gold:#dcb63f; --gold-deep:#c9a227;
+  --rust:#b3400f; --rust-hi:#d4571f;
+  --paper:#f6f3ea; --muted:rgba(246,243,234,.72);
+  --card:rgba(255,255,255,.045); --card-line:rgba(220,182,63,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Instrument Sans',system-ui,sans-serif;background:var(--navy);color:var(--paper);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+[hidden]{display:none!important}
+.container{max-width:1120px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:.6rem;font:600 1rem/1 'Instrument Sans',sans-serif;padding:1rem 1.6rem;border-radius:10px;border:2px solid transparent;text-decoration:none;cursor:pointer;transition:transform .2s,background .2s,border-color .2s}
+.btn-primary{background:var(--rust);color:#fff}
+.btn-primary:hover{background:var(--rust-hi);transform:translateY(-2px)}
+.btn-ghost{border-color:var(--card-line);color:var(--paper);background:transparent}
+.btn-ghost:hover{border-color:var(--gold);transform:translateY(-2px)}
+
+/* top bar */
+.bar{position:absolute;top:0;left:0;right:0;z-index:5;padding:22px 0}
+.bar .container{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.mark{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.14em;font-size:.85rem;text-transform:uppercase;text-decoration:none}
+.mark svg{width:26px;height:26px}
+.bar .btn{padding:.7rem 1.1rem;font-size:.9rem}
+.bar-actions{display:flex;gap:10px}
+
+/* hero */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px 0 90px;overflow:hidden;
+  background:radial-gradient(1000px 560px at 78% 18%,rgba(179,64,15,.28),transparent 62%),radial-gradient(800px 500px at 8% 92%,rgba(220,182,63,.13),transparent 60%),var(--navy)}
+.hero-shapes-back,.hero-shapes-mid{position:absolute;inset:0;pointer-events:none}
+.star{position:absolute;fill:none;stroke:var(--gold);stroke-width:1.2}
+.shape-a{width:520px;right:-120px;top:-60px;opacity:.16;animation:floatA 14s ease-in-out infinite}
+.shape-b{width:300px;left:-90px;bottom:40px;opacity:.13;animation:floatB 11s ease-in-out infinite}
+.shape-c{width:180px;right:22%;bottom:12%;opacity:.2;stroke:var(--rust-hi);animation:floatA 9s ease-in-out infinite}
+@keyframes floatA{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(20px,-30px) rotate(8deg)}}
+@keyframes floatB{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-16px,24px) rotate(-7deg)}}
+.hero .container{position:relative;z-index:2}
+.eyebrow{display:inline-block;font-weight:600;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid var(--card-line);padding:.45rem .9rem;border-radius:999px;margin-bottom:26px}
+h1{font-size:clamp(2.6rem,7vw,5rem);line-height:1.02;font-weight:700;letter-spacing:-.025em;max-width:15ch}
+h1 em{font-style:normal;color:var(--gold)}
+.subtitle{margin-top:26px;font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--muted);max-width:56ch}
+.hero-cta{margin-top:38px;display:flex;flex-wrap:wrap;gap:14px}
+.scroll-down{position:absolute;left:50%;bottom:26px;translate:-50% 0;z-index:2;color:var(--muted);animation:bounce 2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* sections */
+section{padding:110px 0}
+.kicker{font-weight:600;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+h2{font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.08;font-weight:700;letter-spacing:-.02em;max-width:20ch}
+.lead{margin-top:18px;color:var(--muted);max-width:60ch;font-size:1.1rem}
+
+/* features */
+.features{perspective:1200px;margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feature-card{background:var(--card);border:1px solid var(--card-line);border-radius:16px;padding:30px 26px;transition:transform .3s,border-color .3s}
+.feature-card:hover{transform:translateY(-6px);border-color:var(--gold)}
+.feature-card svg{width:34px;height:34px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:18px}
+.feature-card h3{font-size:1.35rem;font-weight:600;margin-bottom:8px}
+.feature-card p{color:var(--muted);font-size:.98rem}
+
+/* wall */
+.wall{background:var(--navy-mid);border-block:1px solid var(--navy-line)}
+.wall-grid{margin-top:48px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px 40px}
+.wall-item{display:flex;gap:16px;padding:20px 0;border-top:1px solid var(--navy-line)}
+.wall-item b{color:var(--gold);font-weight:600;flex:0 0 auto}
+.wall-item p{color:var(--muted)}
+.wall-item strong{color:var(--paper);font-weight:600}
+
+/* ladder */
+.ladder{margin-top:52px;display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative}
+.step{position:relative;padding:0 10px 0 0}
+.step::before{content:"";display:block;height:2px;background:var(--navy-line);margin-bottom:22px}
+.step .dot{position:absolute;top:-6px;left:0;width:14px;height:14px;border-radius:50%;background:var(--navy);border:2px solid var(--muted)}
+.step h3{font-size:1.02rem;font-weight:600}
+.step p{font-size:.86rem;color:var(--muted);margin-top:4px}
+.tag{display:inline-block;margin-top:10px;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .55rem;border-radius:999px;border:1px solid var(--navy-line);color:var(--muted)}
+.step.here::before{background:var(--rust-hi)}
+.step.here .dot{background:var(--rust);border-color:var(--rust-hi);box-shadow:0 0 0 6px rgba(179,64,15,.25)}
+.step.here h3{color:var(--gold)}
+.step.here .tag{background:var(--rust);border-color:var(--rust);color:#fff}
+.step.live .dot{background:var(--gold);border-color:var(--gold)}
+.step.live .tag{border-color:var(--gold);color:var(--gold)}
+.note{margin-top:34px;font-size:.92rem;color:var(--muted);max-width:70ch}
+
+/* how */
+.how{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+.how div{counter-increment:s;padding-top:18px;border-top:2px solid var(--gold-deep)}
+.how div::before{content:"0" counter(s);display:block;font-weight:700;color:var(--gold);margin-bottom:6px}
+.how h3{font-size:1.1rem;font-weight:600;margin-bottom:6px}
+.how p{color:var(--muted);font-size:.95rem}
+
+/* cta */
+.cta{background:var(--navy-mid);position:relative;overflow:hidden;padding:120px 0}
+.cta::before{content:"";position:absolute;inset:auto -10% -40% -10%;height:80%;background:radial-gradient(closest-side,rgba(179,64,15,.35),transparent);pointer-events:none}
+.cta .container{position:relative}
+.cta-grid{margin-top:44px;display:grid;grid-template-columns:1fr 1.3fr;gap:44px;align-items:start}
+.direct{display:grid;gap:14px}
+.direct .btn{justify-content:center}
+.direct small{color:var(--muted);font-size:.85rem}
+form{background:var(--card);border:1px solid var(--card-line);border-radius:16px;padding:26px;display:grid;gap:16px}
+label{display:grid;gap:6px;font-size:.88rem;font-weight:600;color:var(--paper)}
+input,select,textarea{font:inherit;font-weight:400;color:var(--paper);background:rgba(255,255,255,.06);border:1px solid var(--navy-line);border-radius:8px;padding:.75rem .85rem;width:100%}
+select option{color:#111}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);outline:none}
+.form-actions{display:flex;flex-wrap:wrap;gap:12px}
+.privacy{font-size:.82rem;color:var(--muted)}
+footer{padding:36px 0;font-size:.85rem;color:var(--muted);border-top:1px solid var(--navy-line)}
+footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+
+@media(max-width:1000px){.ladder{grid-template-columns:repeat(3,1fr);row-gap:34px}.how{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.features{grid-template-columns:repeat(2,1fr)}.cta-grid{grid-template-columns:1fr}}
+@media(max-width:580px){
+  body{font-size:16px}.container{padding:0 16px}section{padding:76px 0}.cta{padding:80px 0}
+  .features,.wall-grid,.how{grid-template-columns:1fr}.ladder{grid-template-columns:1fr;row-gap:0}
+  .step{padding:0 0 26px 30px;border-left:2px solid var(--navy-line);margin-left:6px}
+  .step::before{display:none}.step .dot{top:2px;left:-8px}
+  .step.here{border-left-color:var(--rust-hi)}
+  .bar .btn{display:none}.shape-a{width:340px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="container">
+    <a class="mark" href="#top" aria-label="Campaign GRID">
+      <svg viewBox="0 0 40 40" fill="none" stroke="#dcb63f" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="22" height="22"/><rect x="9" y="9" width="22" height="22" transform="rotate(45 20 20)"/></svg>
+      Campaign GRID
+    </a>
+    <span class="bar-actions"><a class="btn btn-ghost" href="campaign-grid.html" hreflang="en" lang="en">EN</a><a class="btn btn-ghost" data-demo href="#activate" hidden>Lihat demo</a><a class="btn btn-primary" href="#activate">Mohon pengaktifan</a></span>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" aria-labelledby="h1">
+  <div class="hero-shapes-back" aria-hidden="true">
+    <svg class="star shape-a" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60"/><rect x="20" y="20" width="60" height="60" transform="rotate(45 50 50)"/></svg>
+    <svg class="star shape-b" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60"/><rect x="20" y="20" width="60" height="60" transform="rotate(45 50 50)"/></svg>
+  </div>
+  <div class="hero-shapes-mid" aria-hidden="true">
+    <svg class="star shape-c" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60"/><rect x="20" y="20" width="60" height="60" transform="rotate(45 50 50)"/></svg>
+  </div>
+  <div class="container">
+    <span class="eyebrow">Sebahagian daripada keluarga GRID</span>
+    <h1 id="h1">Jalankan seluruh kempen dari <em>satu ruang kerja.</em></h1>
+    <p class="subtitle">Jadual, pasukan lapangan, kelulusan kandungan, pertanyaan media dan perbelanjaan untuk satu kerusi, diasingkan sepenuhnya daripada mana-mana sistem pejabat. Disediakan dan dilatih oleh Katalys untuk calon dan ejen pilihan raya.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#activate">Mohon pengaktifan</a>
+      <a class="btn btn-ghost" data-demo href="#activate" hidden>Lihat demo</a>
+      <a class="btn btn-ghost" href="#ladder">Lihat kedudukannya</a>
+    </div>
+  </div>
+  <svg class="scroll-down" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+</section>
+
+<section aria-labelledby="h-feat">
+  <div class="container">
+    <p class="kicker">Apa yang dijalankan</p>
+    <h2 id="h-feat">Enam kerja yang dilakukan kempen setiap hari.</h2>
+    <p class="lead">Setiap satu ialah skrin yang berfungsi, bukan slaid. Pasukan lapangan hanya melihat zon mereka sendiri.</p>
+    <div class="features">
+      <article class="feature-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+        <h3>Jadual calon</h3>
+        <p>Acara dan penampilan dalam satu kalendar, dengan keputusan yang menunggu calon atau ejen dalam satu giliran.</p>
+      </article>
+      <article class="feature-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <h3>Penempatan lapangan</h3>
+        <p>Pasukan ditempatkan mengikut zon dan daerah mengundi, dengan tugasan, peta dan tanda bila kerja lewat.</p>
+      </article>
+      <article class="feature-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13l2 2 4-4"/></svg>
+        <h3>Kelulusan kandungan</h3>
+        <p>Draf melalui semakan fakta sebelum boleh diluluskan. Tiada apa-apa diluluskan selagi semakan belum selesai.</p>
+      </article>
+      <article class="feature-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg>
+        <h3>Pertanyaan media</h3>
+        <p>Setiap soalan wartawan direkod bersama tarikh akhirnya, supaya yang mendesak tidak tenggelam dalam sembang.</p>
+      </article>
+      <article class="feature-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>
+        <h3>Perbelanjaan terhadap had</h3>
+        <p>Perbelanjaan direkod dalam sen yang tepat terhadap had statutori. Ia merekod fakta. Ia tidak memberi nasihat pematuhan.</p>
+      </article>
+      <article class="feature-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>
+        <h3>Insiden</h3>
+        <p>Masalah permit, kenderaan rosak dan gangguan disusun ikut kesegeraan, kemudian ditutup bersama tindakan yang diambil.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="wall" aria-labelledby="h-wall">
+  <div class="container">
+    <p class="kicker">Dinding pemisah</p>
+    <h2 id="h-wall">Kempen dan pejabat menjawab kepada tanggungjawab yang berbeza.</h2>
+    <p class="lead">Pendapat politik ialah data peribadi sensitif. Maka Campaign GRID dibina supaya kedua-duanya tidak boleh bercampur.</p>
+    <div class="wall-grid">
+      <div class="wall-item"><b>01</b><p><strong>Tiada kaitan dengan rekod rakyat.</strong> Kenalan kempen tiada sambungan ke mana-mana pangkalan data pejabat. Ini dikuatkuasakan oleh ujian, bukan dokumen dasar.</p></div>
+      <div class="wall-item"><b>02</b><p><strong>Tiada niat mengundi, di mana-mana.</strong> Tiada medan untuknya, walau pilihan sekalipun, dan tiada anggaran penyokong.</p></div>
+      <div class="wall-item"><b>03</b><p><strong>Tidak kelihatan pada sistem pejabat.</strong> Pada sistem pejabat, ruang kempen tidak wujud langsung. Ia bukan disembunyikan atau dikunci, ia memang tiada.</p></div>
+      <div class="wall-item"><b>04</b><p><strong>Fakta, bukan nasihat undang-undang.</strong> Perbelanjaan direkod terhadap had statutori. Ia tidak pernah disekat dan tidak pernah dinilai. Pematuhan kekal di tangan ejen pilihan raya.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="ladder" aria-labelledby="h-ladder">
+  <div class="container">
+    <p class="kicker">Keluarga GRID</p>
+    <h2 id="h-ladder">Satu ekosistem, dari kerja komuniti pertama hingga jawatan eksekutif.</h2>
+    <p class="lead">GRID mengikuti seseorang sepanjang kerjayanya. Setiap peringkat hanya menghidupkan ruang kerja yang diperlukan peringkat itu.</p>
+    <ol class="ladder" style="list-style:none">
+      <li class="step"><span class="dot"></span><h3>GRID Personal</h3><p>Aspiran dan pekerja komuniti. Percuma.</p><span class="tag">Dirancang</span></li>
+      <li class="step"><span class="dot"></span><h3>GRID Leader</h3><p>Ketua cawangan dan pasukan.</p><span class="tag">Dirancang</span></li>
+      <li class="step"><span class="dot"></span><h3>Candidate Readiness</h3><p>Bersedia untuk penamaan calon.</p><span class="tag">Dirancang</span></li>
+      <li class="step here" aria-current="step"><span class="dot"></span><h3>Campaign GRID</h3><p>Calon yang dilantik dan pasukannya.</p><span class="tag">Anda di sini</span></li>
+      <li class="step live"><span class="dot"></span><h3>Representative GRID</h3><p>Jawatan dipilih. Sudah beroperasi sebagai Johor GRID.</p><span class="tag">Aktif</span></li>
+      <li class="step"><span class="dot"></span><h3>Executive GRID</h3><p>EXCO, menteri dan datuk bandar.</p><span class="tag">Dirancang</span></li>
+    </ol>
+    <p class="note">Hanya Campaign GRID dan Representative GRID tersedia hari ini. Peringkat lain dirancang dan tiada tarikh. Rekod seseorang mengikutinya, manakala data penyokong kempen tidak pernah berpindah ke pejabat.</p>
+  </div>
+</section>
+
+<section aria-labelledby="h-how" style="padding-top:0">
+  <div class="container">
+    <p class="kicker">Bagaimana bermula</p>
+    <h2 id="h-how">Bukan pendaftaran sendiri. Kami sediakan bersama anda.</h2>
+    <div class="how">
+      <div><h3>Mohon</h3><p>Calon atau organisasi pembiaya memohon pengaktifan dan menamakan kerusi.</p></div>
+      <div><h3>Konfigurasi</h3><p>Katalys menyediakan zon kerusi, peranan pasukan, had perbelanjaan dan penjenamaan.</p></div>
+      <div><h3>Latihan</h3><p>Ejen pilihan raya dan pasukan anda dibimbing sebelum berkempen bermula.</p></div>
+      <div><h3>Jalankan</h3><p>Pasukan bekerja dari satu tempat, hari demi hari, sehingga hari mengundi.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="activate" aria-labelledby="h-cta">
+  <div class="container">
+    <p class="kicker">Mohon pengaktifan</p>
+    <h2 id="h-cta">Beritahu kami kerusinya. Selebihnya kami uruskan.</h2>
+    <p class="lead">Hubungi kami dengan cara yang anda suka. Pengaktifan adalah untuk calon yang dilantik secara rasmi, dengan ejen pilihan raya yang dinamakan.</p>
+    <div class="cta-grid">
+      <div class="direct">
+        <a class="btn btn-primary" id="wa-direct" href="#" hidden>Hantar mesej WhatsApp</a>
+        <a class="btn btn-ghost" id="mail-direct" href="mailto:pmnilam@katalysmedia.asia?subject=Pengaktifan%20Campaign%20GRID">E-mel pmnilam@katalysmedia.asia</a>
+        <a class="btn btn-ghost" data-demo href="#activate" hidden>Lihat demo langsung</a>
+        <small>Demo memaparkan calon rekaan. Laman awam terbuka kepada semua. Bahagian belakang pasukan meminta log masuk, yang kami berikan apabila anda memintanya.</small>
+        <small>Atau isi borang. Ia menulis mesej untuk anda hantar.</small>
+      </div>
+      <form id="form" novalidate>
+        <label>Nama anda<input name="nama" autocomplete="name" required></label>
+        <label>Anda ialah<select name="peranan"><option>Calon</option><option>Ejen pilihan raya</option><option>Parti atau organisasi</option><option>Lain-lain</option></select></label>
+        <label>Kerusi atau kawasan<input name="kerusi" placeholder="cth. P.160 Johor Bahru"></label>
+        <label>Perkara yang perlu kami tahu<textarea name="mesej"></textarea></label>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="button" id="send-mail">Hantar melalui e-mel</button>
+          <button class="btn btn-ghost" type="button" id="send-wa" hidden>Hantar melalui WhatsApp</button>
+        </div>
+        <p class="privacy">Tiada apa-apa dihantar dari laman ini. Borang hanya menulis mesej dalam aplikasi e-mel atau WhatsApp anda. Jangan sertakan butiran pengundi atau penyokong.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>&copy; Katalys Media &middot; GRID product family</span>
+    <span>Campaign GRID tidak menyimpan data pengundi.</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+/* Contact settings. Leave WHATSAPP empty to hide the WhatsApp buttons.
+   Digits only, with country code, e.g. "60123456789". */
+const EMAIL = "pmnilam@katalysmedia.asia";
+const WHATSAPP = "";
+/* Address of the demo site (a separate deployment). Empty hides the demo buttons. */
+const DEMO_URL = location.hostname === "localhost" ? "http://localhost:8000" : "https://demo.campaign.grid.com";
+
+document.querySelectorAll("[data-demo]").forEach((a) => {
+  if (!DEMO_URL) return;
+  a.href = DEMO_URL; a.hidden = false;
+  a.target = "_blank"; a.rel = "noopener";
+});
+
+(function contact(){
+  const $ = (id) => document.getElementById(id);
+  const text = () => {
+    const f = new FormData($("form"));
+    return `Permohonan pengaktifan Campaign GRID\n\nNama: ${f.get("nama")||""}\nPeranan: ${f.get("peranan")}\nKerusi: ${f.get("kerusi")||""}\n\n${f.get("mesej")||""}`;
+  };
+  if (WHATSAPP) {
+    $("wa-direct").hidden = false;
+    $("wa-direct").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Helo, saya ingin memohon pengaktifan Campaign GRID.")}`;
+    $("send-wa").hidden = false;
+    $("send-wa").addEventListener("click", () => window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text())}`, "_blank", "noopener"));
+  }
+  $("send-mail").addEventListener("click", () => {
+    if (!$("form").reportValidity()) return;
+    location.href = `mailto:${EMAIL}?subject=${encodeURIComponent("Permohonan pengaktifan Campaign GRID")}&body=${encodeURIComponent(text())}`;
+  });
+})();
+
+/* Motion. If GSAP fails to load, everything stays visible. */
+(function motion(){
+  if (typeof gsap === "undefined" || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+  const hero = document.querySelector(".hero");
+
+  gsap.set([".eyebrow", ".hero h1", ".hero .subtitle", ".hero-cta", ".scroll-down"], { opacity: 0, y: 30 });
+  gsap.timeline({ defaults: { ease: "power3.out" } })
+    .to(".eyebrow", { opacity: 1, y: 0, duration: .6 })
+    .to(".hero h1", { opacity: 1, y: 0, duration: .8 }, "-=.3")
+    .to(".hero .subtitle", { opacity: 1, y: 0, duration: .6 }, "-=.5")
+    .to(".hero-cta", { opacity: 1, y: 0, duration: .5 }, "-=.3")
+    .to(".scroll-down", { opacity: 1, y: 0, duration: .4 }, "-=.2");
+
+  hero.addEventListener("mousemove", (e) => {
+    const x = (e.clientX / window.innerWidth - .5) * 2, y = (e.clientY / window.innerHeight - .5) * 2;
+    gsap.to(".hero-shapes-back", { x: x * 45, y: y * 22, duration: .8 });
+    gsap.to(".hero-shapes-mid", { x: x * 22, y: y * 11, duration: .8 });
+    gsap.to(".hero .container", { x: x * 8, y: y * 5, duration: .8 });
+  });
+
+  gsap.set(".feature-card", { opacity: 0, y: 55, rotateX: 18 });
+  ScrollTrigger.batch(".feature-card", {
+    start: "top 85%",
+    onEnter: (b) => gsap.to(b, { opacity: 1, y: 0, rotateX: 0, duration: .8, stagger: .11, ease: "power2.out" })
+  });
+
+  gsap.set([".wall-item", ".step", ".how div"], { opacity: 0, y: 30 });
+  [".wall-item", ".step", ".how div"].forEach((sel) => ScrollTrigger.batch(sel, {
+    start: "top 88%",
+    onEnter: (b) => gsap.to(b, { opacity: 1, y: 0, duration: .7, stagger: .09, ease: "power2.out" })
+  }));
+})();
+</script>
+</body>
+</html>
