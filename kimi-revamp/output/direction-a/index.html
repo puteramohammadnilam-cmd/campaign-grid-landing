@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campaign GRID</title>
+<meta name="description" content="One workspace to run a campaign, kept completely apart from any office system. Part of the GRID family, from first community work to executive office.">
+<meta property="og:title" content="Campaign GRID">
+<meta property="og:description" content="One workspace to run a campaign, kept completely apart from any office system.">
+<meta name="theme-color" content="#0a1a30">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a30; --navy-2:#0d1f38; --navy-3:#102440; --panel:#0f2444; --panel-2:#132a4d;
+  --line:rgba(220,182,63,.16); --line-soft:rgba(255,255,255,.08);
+  --gold:#dcb63f; --gold-dim:#a6874a;
+  --rust:#b3400f; --rust-hi:#d4571f;
+  --paper:#f6f3ea; --muted:#a39b8a;
+  --sans:'Instrument Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono','Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--navy);color:var(--paper);line-height:1.6;font-size:16.5px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+[hidden]{display:none!important}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+/* ---------- shared bits ---------- */
+.k{font:600 .72rem var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+h2{font-size:clamp(1.9rem,3.6vw,2.9rem);line-height:1.08;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+section{padding:96px 0;border-top:1px solid var(--line-soft)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;font:600 .95rem/1 var(--sans);padding:1rem 1.5rem;min-height:48px;border-radius:8px;border:2px solid transparent;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn-primary{background:var(--rust);color:#fff}
+.btn-primary:hover{background:var(--rust-hi)}
+.btn-ghost{border-color:var(--line);color:var(--paper);background:transparent}
+.btn-ghost:hover{border-color:var(--gold)}
+
+.demo-tag{font:500 .62rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim)}
+.mock{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;overflow:hidden}
+.mock-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line-soft);background:var(--navy-3)}
+.mock-bar .dots{display:flex;gap:5px}
+.mock-bar .dots i{width:8px;height:8px;border-radius:50%;background:rgba(246,243,234,.14)}
+.mock-bar .t{font:500 .68rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(246,243,234,.55);padding:.28rem .7rem;border:1px solid var(--line-soft);border-radius:5px}
+.fig{margin-top:26px}
+.fig .mock{border-color:var(--line)} .fig.ghost .mock{opacity:.55}
+figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:10px;font:400 .8rem var(--mono);color:var(--muted);flex-wrap:wrap}
+figcaption b{font-weight:500;color:var(--gold-dim);letter-spacing:.06em}
+
+/* ---------- top bar ---------- */
+.bar{position:absolute;top:0;left:0;right:0;z-index:20;padding:20px 0 0}
+.bar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.mark{display:flex;align-items:center;gap:10px;font:700 .82rem var(--sans);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--paper)}
+.mark svg{width:24px;height:24px}
+.mark .ver{font:500 .62rem var(--mono);color:var(--gold-dim);letter-spacing:.12em}
+.bar-actions{display:flex;gap:10px;align-items:center}
+.bar-actions .btn{padding:.75rem 1.1rem;font-size:.86rem;min-height:44px}
+.lang{font:600 .78rem var(--mono);text-decoration:none;color:var(--muted);border:1px solid var(--line-soft);border-radius:8px;padding:.75rem .8rem;min-height:44px;display:inline-flex;align-items:center}
+.lang:hover{color:var(--gold);border-color:var(--line)}
+
+/* ---------- hero console ---------- */
+.hero{position:relative;padding:118px 0 42px;border-top:0;overflow-x:clip;
+  background:
+    radial-gradient(1100px 480px at 85% -10%,rgba(212,87,31,.14),transparent 60%),
+    repeating-linear-gradient(0deg,rgba(220,182,63,.028) 0 1px,transparent 1px 72px),
+    repeating-linear-gradient(90deg,rgba(220,182,63,.028) 0 1px,transparent 1px 72px),
+    var(--navy);
+}
+.hero-frame{display:grid;grid-template-columns:minmax(340px,436px) 1fr;gap:0;border:1px solid var(--line);border-radius:16px;background:rgba(13,31,56,.55);position:relative;z-index:2}
+.c-star{position:absolute;right:-14px;top:-14px;z-index:5;width:64px;height:64px;pointer-events:none}
+.c-star svg{width:100%;height:100%;animation:spin 90s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hpanel{padding:42px 34px 34px;border-right:1px solid var(--line-soft);display:flex;flex-direction:column;gap:24px}
+.hrow{display:flex;justify-content:space-between;align-items:center;gap:12px;font:500 .72rem var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.hrow .sys{color:var(--gold-dim)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:.4rem .8rem;border-radius:999px;background:rgba(179,64,15,.2);border:1px solid rgba(212,87,31,.5);color:#f0a37c;font:600 .66rem var(--mono);letter-spacing:.14em}
+.pill .dotb{width:8px;height:8px;border-radius:50%;background:var(--rust-hi);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(212,87,31,.55)}50%{box-shadow:0 0 0 7px rgba(212,87,31,0)}}
+h1{font-size:clamp(2rem,3.4vw,2.9rem);line-height:1.06;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--gold)}
+.hsub{color:var(--muted);font-size:1.02rem;max-width:44ch}
+.hctas{display:flex;flex-wrap:wrap;gap:12px}
+.hmeta{border-top:1px solid var(--line-soft);padding-top:20px;display:grid;gap:12px;font:400 .8rem var(--mono);color:var(--muted)}
+.hmeta .row{display:flex;justify-content:space-between;gap:14px;border-bottom:1px dashed rgba(255,255,255,.07);padding-bottom:12px}
+.hmeta .row:last-child{border-bottom:0;padding-bottom:0}
+.hmeta b{font-weight:500;color:rgba(246,243,234,.92);font-size:.9rem;letter-spacing:.02em}
+.hmeta .k2{color:var(--gold-dim)}
+
+/* hero right: ops board */
+.hboard{padding:22px 22px 20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.bhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.bhead .t{font:600 .74rem var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--paper)}
+.bhead small{font:400 .66rem var(--mono);color:var(--muted)}
+.slots{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.slot{background:var(--navy-3);border:1px solid var(--line-soft);border-radius:10px;padding:10px 10px 12px;min-height:96px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+.slot .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.slot .no{font:600 .72rem var(--mono);color:rgba(246,243,234,.5)}
+.slot .nm{font:500 .7rem var(--mono);letter-spacing:.05em;color:var(--paper)}
+.badge{font:600 .58rem var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:.24rem .5rem;border-radius:99px;border:1px solid var(--line-soft);color:rgba(246,243,234,.62)}
+.b-gold{border-color:rgba(220,182,63,.55);color:var(--gold)}
+.b-rust{border-color:rgba(212,87,31,.65);color:#f0a37c}
+.b-live{border-color:rgba(220,182,63,.55);background:rgba(220,182,63,.12);color:var(--gold)}
+.pane{border:1px solid var(--line-soft);border-radius:10px;background:var(--navy-2);padding:12px 14px}
+.pane .ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font:600 .62rem var(--mono);letter-spacing:.18em;text-transform:uppercase}
+.pane .ph span{color:var(--gold-dim)}
+.pane .ph i{font-style:normal;color:rgba(246,243,234,.45)}
+.zone-list{display:grid;gap:8px}
+.zone{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:12px;font:400 .74rem var(--mono)}
+.zone .zn{color:rgba(246,243,234,.8)}
+.zone .bar{height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+.zone .bar i{display:block;height:100%;background:var(--gold-dim);border-radius:99px}
+.zone .pct{color:var(--gold);font-size:.7rem;text-align:right}
+.zone.late .zn{color:#f0a37c}
+.zone.late .bar i{background:var(--rust-hi)}
+.zone.late .pct{color:#f0a37c}
+.triage{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trip{background:var(--navy-3);border:1px solid var(--line-soft);border-radius:8px;padding:9px 11px;font:400 .72rem var(--mono)}
+.trip b{display:block;font-weight:500;color:var(--paper);letter-spacing:.04em;margin-bottom:4px}
+.trip span{color:rgba(246,243,234,.6);font-size:.68rem}
+.trip .st{display:inline-block;margin-top:6px}
+.hero .fig{margin-top:18px}
+.caption-strip{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;margin-top:22px;font:400 .74rem var(--mono);color:var(--muted)}
+
+/* ---------- jobs ---------- */
+.jobs-grid{margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.job{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:24px 22px;border-top:2px solid rgba(220,182,63,.4)}
+.job .idx{font:600 .68rem var(--mono);letter-spacing:.2em;color:var(--gold-dim);display:flex;justify-content:space-between;margin-bottom:14px}
+.job h3{font-size:1.12rem;font-weight:600;margin-bottom:8px}
+.job p{color:var(--muted);font-size:.92rem}
+
+/* ---------- wall ---------- */
+.wall .lead{color:var(--muted);max-width:62ch;margin-top:16px}
+.wallvis{margin-top:44px;display:grid;grid-template-columns:1fr .9fr;gap:40px;align-items:start}
+.wall-diagram{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:20px}
+.wall-diagram svg{display:block;width:100%;height:auto}
+.wall-diagram .cap{margin-top:12px}
+.clauses{display:grid;gap:0}
+.clause{display:grid;grid-template-columns:auto 1fr;gap:16px;padding:18px 0;border-top:1px solid var(--line-soft)}
+.clause .no{font:600 .7rem var(--mono);color:var(--gold);border:1px solid rgba(220,182,63,.45);width:34px;height:34px;border-radius:8px;display:grid;place-items:center}
+.clause h3{font-size:1.02rem;font-weight:600;margin-bottom:4px}
+.clause p{color:var(--muted);font-size:.92rem}
+
+/* ---------- ladder ---------- */
+.ladder{display:grid;gap:44px;margin-top:44px}
+.lrow{display:grid;grid-template-columns:52px 1fr 1.7fr 130px;gap:14px 26px;align-items:center;padding:26px 0;border-top:1px solid var(--line-soft)}
+.lrow .no{font:600 .9rem var(--mono);color:var(--muted)}
+.lrow h3{font-size:1.25rem;font-weight:600}
+.lrow p{color:var(--muted);font-size:.95rem}
+.lrow .tag{justify-self:end;font:600 .62rem var(--mono);letter-spacing:.16em;text-transform:uppercase;padding:.45rem .9rem;border-radius:999px;border:1px solid var(--line-soft);color:var(--muted)}
+.lrow.ghost{opacity:.45}
+.lrow.here{background:linear-gradient(90deg,rgba(179,64,15,.22),rgba(179,64,15,.05) 55%,transparent);border:1px solid rgba(212,87,31,.5);border-radius:14px;padding:30px 24px;margin-top:8px}
+.lrow.here .no{color:var(--gold)}
+.lrow.here h3{color:var(--gold);font-size:1.6rem}
+.lrow.here p{color:rgba(246,243,234,.85)}
+.lrow.here .tag{background:var(--rust);border-color:var(--rust);color:#fff}
+.lrow.live .tag{border-color:rgba(220,182,63,.6);color:var(--gold)}
+.lrow.live .no{color:var(--gold-dim)}
+.lnote{margin-top:36px;color:var(--muted);font-size:.92rem;max-width:72ch;border-left:2px solid var(--gold-dim);padding-left:16px}
+
+/* ---------- activation ---------- */
+.how{margin-top:44px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
+.how div{counter-increment:s;background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:20px}
+.how div::before{content:"STEP 0" counter(s);display:block;font:600 .62rem var(--mono);letter-spacing:.2em;color:var(--gold);margin-bottom:12px}
+.how h3{font-size:1.02rem;font-weight:600;margin-bottom:6px}
+.how p{color:var(--muted);font-size:.9rem}
+
+/* ---------- CTA & form ---------- */
+.cta{background:var(--navy-2)}
+.cta-grid{margin-top:40px;display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:start}
+.direct{display:grid;gap:14px;align-content:start}
+.direct .btn{justify-content:flex-start}
+.direct small{color:var(--muted);font-size:.84rem;display:block}
+form{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;display:grid;gap:16px}
+label{display:grid;gap:6px;font-size:.86rem;font-weight:600;color:var(--paper)}
+input,select,textarea{font:inherit;font-weight:400;color:var(--paper);background:rgba(255,255,255,.055);border:1px solid var(--line-soft);border-radius:8px;padding:.8rem .9rem;width:100%;min-height:44px}
+select option{color:#111}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);outline:none}
+.form-actions{display:flex;flex-wrap:wrap;gap:12px}
+.privacy{font-size:.8rem;color:var(--muted)}
+.foot{border-top:1px solid var(--line-soft);padding:30px 0 40px}
+.foot .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font:400 .8rem var(--mono);color:var(--muted)}
+
+/* ---------- sticky rail ---------- */
+.rail{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:50;display:flex;align-items:center;gap:14px;background:rgba(13,31,56,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:10px 12px 10px 20px;opacity:0;pointer-events:none;translate:0 12px;transition:opacity .35s ease,translate .35s ease;max-width:calc(100vw - 32px)}
+.rail.on{opacity:1;pointer-events:auto;translate:0 0}
+.rail .rk{font:600 .62rem var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dim);white-space:nowrap}
+.rail .rt{color:rgba(246,243,234,.85);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:30ch}
+.rail .btn{padding:.7rem 1.2rem;min-height:44px;font-size:.86rem}
+@media (prefers-reduced-motion:reduce){.rail{transition:none}}
+
+/* ---------- responsive ---------- */
+@media(max-width:1060px){
+  .hero-frame{grid-template-columns:1fr}
+  .hpanel{border-right:0;border-bottom:1px solid var(--line-soft)}
+  .jobs-grid{grid-template-columns:repeat(2,1fr)}
+  .wallvis{grid-template-columns:1fr}
+  .cta-grid{grid-template-columns:1fr}
+  .lrow{grid-template-columns:40px 1fr 110px}
+  .lrow p{grid-column:2/3;grid-row:2}
+  .lrow .tag{grid-column:3;grid-row:1}
+}
+@media(max-width:700px){
+  body{font-size:15.5px}
+  .wrap{padding:0 16px}
+  section{padding:70px 0}
+  .hero{padding-top:104px}
+  .bar-actions .btn-ghost{display:none}
+  .slots{grid-template-columns:repeat(2,1fr)}
+  .triage{grid-template-columns:1fr}
+  .jobs-grid{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr 1fr}
+  .lrow{grid-template-columns:32px 1fr;row-gap:8px}
+  .lrow .tag{grid-column:2;grid-row:3;justify-self:start}
+  .rail{left:12px;right:12px;transform:none;justify-content:space-between}
+  .rail .rk{display:none}
+  .hpanel{padding:30px 20px}
+  .hboard{padding:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="Campaign GRID">
+      <svg viewBox="0 0 40 40" fill="none" stroke="#dcb63f" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="22" height="22"/><rect x="9" y="9" width="22" height="22" transform="rotate(45 20 20)"/></svg>
+      <span>Campaign GRID <span class="ver">/ stage 04</span></span>
+    </a>
+    <span class="bar-actions">
+      <a class="lang" href="campaign-grid.ms.html" hreflang="ms" lang="ms">BM</a>
+      <a class="btn btn-ghost" data-demo href="#activate" hidden>See the demo</a>
+      <a class="btn btn-primary" href="#activate">Request activation</a>
+    </span>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO / CONSOLE ============ -->
+<section class="hero" aria-labelledby="h-h1">
+  <div class="wrap">
+    <div class="hero-frame">
+      <div class="c-star" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none" stroke="#dcb63f" stroke-width="1.6"><rect x="9" y="9" width="22" height="22"/><rect x="9" y="9" width="22" height="22" transform="rotate(45 20 20)"/></svg>
+      </div>
+      <div class="hpanel">
+        <div class="hrow">
+          <span class="sys">GRID · stage 04 · campaign</span>
+          <span class="pill"><span class="dotb"></span>Campaign mode</span>
+        </div>
+        <div>
+          <p class="k">Katalys Media · GRID product family</p>
+          <h1 id="h-h1" style="margin-top:12px">Run the whole campaign from <em>one workspace.</em></h1>
+        </div>
+        <p class="hsub">Schedule, field teams, content approval, media enquiries and expenses for one seat — kept completely apart from any office system. Set up and trained by Katalys for the candidate and the election agent.</p>
+        <div class="hctas">
+          <a class="btn btn-primary" href="#activate">Request activation</a>
+          <a class="btn btn-ghost" data-demo href="#activate" hidden>See the demo</a>
+        </div>
+        <div class="hmeta">
+          <div class="row"><span class="k2">Scope</span><b>One seat. One campaign. One team.</b></div>
+          <div class="row"><span class="k2">Working jobs</span><b>Six screens, live every day</b></div>
+          <div class="row"><span class="k2">From office systems</span><b>Separated by design, enforced by tests</b></div>
+        </div>
+      </div>
+
+      <div class="hboard">
+        <div class="bhead">
+          <span class="t">Morning ops board</span>
+          <small>console <span class="demo-tag">demo data, fictional</span></small>
+        </div>
+        <div class="slots" aria-hidden="true">
+          <div class="slot"><div class="top"><span class="no">01</span><span class="badge">queue</span></div><span class="nm">Schedule</span></div>
+          <div class="slot"><div class="top"><span class="no">02</span><span class="badge">zones</span></div><span class="nm">Field</span></div>
+          <div class="slot"><div class="top"><span class="no">03</span><span class="badge b-gold">check open</span></div><span class="nm">Approval</span></div>
+          <div class="slot"><div class="top"><span class="no">04</span><span class="badge b-rust">late 1</span></div><span class="nm">Incidents</span></div>
+          <div class="slot"><div class="top"><span class="no">05</span><span class="badge">cap</span></div><span class="nm">Expenses</span></div>
+        </div>
+        <div class="pane" aria-hidden="true">
+          <div class="ph"><span>Field · zone completion</span><i>5 zones</i></div>
+          <div class="zone-list">
+            <div class="zone"><span class="zn">CENTRAL</span><span class="bar"><i style="width:72%"></i></span><span class="pct">72%</span></div>
+            <div class="zone"><span class="zn">NORTH</span><span class="bar"><i style="width:58%"></i></span><span class="pct">58%</span></div>
+            <div class="zone late"><span class="zn">TOWN</span><span class="bar"><i style="width:41%"></i></span><span class="pct">late</span></div>
+            <div class="zone"><span class="zn">SOUTH</span><span class="bar"><i style="width:83%"></i></span><span class="pct">83%</span></div>
+            <div class="zone"><span class="zn">COAST</span><span class="bar"><i style="width:66%"></i></span><span class="pct">66%</span></div>
+          </div>
+        </div>
+        <div class="pane" aria-hidden="true">
+          <div class="ph"><span>Triage</span><i>this morning</i></div>
+          <div class="triage">
+            <div class="trip"><b>Approval · blocked</b><span>Fact-check open on draft 14</span><span class="st badge b-gold">gate on</span></div>
+            <div class="trip"><b>Incident · vehicle</b><span>Zone TOWN · triaged urgent</span><span class="st badge b-rust">open</span></div>
+          </div>
+        </div>
+        <p class="demo-tag">All names, seats, tasks and numbers shown are fictional demo data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIX JOBS ============ -->
+<section aria-labelledby="h-jobs">
+  <div class="wrap">
+    <p class="k">01 — What it runs</p>
+    <h2 id="h-jobs">Six jobs a campaign does every day.</h2>
+    <p style="margin-top:16px;color:var(--muted);max-width:62ch">Each one is a working screen, not a slide. Field team leads see only their own zone.</p>
+    <div class="jobs-grid" data-rev>
+      <article class="job"><div class="idx"><span>JOB 01</span><span>SCHED</span></div><h3>Candidate schedule</h3><p>Events and appearances on one calendar, with the decisions waiting on the candidate or agent in a single queue.</p></article>
+      <article class="job"><div class="idx"><span>JOB 02</span><span>FIELD</span></div><h3>Field deployment</h3><p>Teams placed by zone and polling district, with tasks, a live map, and a flag when work runs late.</p></article>
+      <article class="job"><div class="idx"><span>JOB 03</span><span>APPROVE</span></div><h3>Content approval</h3><p>Drafts go through a fact-check before they can be approved. Nothing is approved with the check open.</p></article>
+      <article class="job"><div class="idx"><span>JOB 04</span><span>MEDIA</span></div><h3>Media enquiries</h3><p>Every journalist question logged with its deadline, so an urgent one is never buried in a chat thread.</p></article>
+      <article class="job"><div class="idx"><span>JOB 05</span><span>SEN</span></div><h3>Expenses against the cap</h3><p>Spending recorded in exact sen against the statutory limit. It records the facts. It does not give compliance advice.</p></article>
+      <article class="job"><div class="idx"><span>JOB 06</span><span>TRIAGE</span></div><h3>Incidents</h3><p>Permit problems, vehicle breakdowns and disruptions triaged by urgency, then closed with what was done.</p></article>
+    </div>
+
+    <figure class="fig">
+      <div class="mock" aria-hidden="true">
+        <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="t">Field · zone map</span><span style="margin-left:auto" class="demo-tag">demo data, fictional</span></div>
+        <div style="padding:16px;display:grid;grid-template-columns:1.05fr 1fr;gap:18px">
+          <svg viewBox="0 0 520 340" role="img" aria-label="Fictional zone map" style="width:100%;height:auto;background:#0b1c34;border:1px solid rgba(255,255,255,.06);border-radius:8px">
+            <g stroke="rgba(220,182,63,.35)" stroke-width="1" fill="rgba(255,255,255,.03)">
+              <path d="M28 58 L212 34 L238 152 L150 206 L44 168 Z"/>
+              <path d="M218 32 L398 44 L390 168 L244 154 Z"/>
+              <path d="M30 176 L148 214 L134 316 L34 302 Z"/>
+              <path d="M156 210 L244 162 L386 174 L398 296 L256 322 L140 318 Z"/>
+              <path d="M404 50 L496 66 L486 288 L404 292 L396 172 Z"/>
+            </g>
+            <g font-family="IBM Plex Mono,monospace" font-size="12" fill="rgba(246,243,234,.65)" letter-spacing="1">
+              <text x="120" y="122" text-anchor="middle">CENTRAL</text>
+              <text x="312" y="104" text-anchor="middle">NORTH</text>
+              <text x="86" y="252" text-anchor="middle">TOWN</text>
+              <text x="272" y="252" text-anchor="middle">SOUTH</text>
+              <text x="446" y="172" text-anchor="middle">COAST</text>
+            </g>
+            <g>
+              <circle cx="120" cy="122" r="5" fill="#dcb63f"/>
+              <circle cx="312" cy="104" r="5" fill="#dcb63f"/>
+              <circle cx="86" cy="252" r="5" fill="#d4571f"/>
+              <circle cx="272" cy="252" r="5" fill="#dcb63f"/>
+              <circle cx="446" cy="172" r="5" fill="#dcb63f"/>
+            </g>
+            <g font-family="IBM Plex Mono,monospace" font-size="11" fill="#dcb63f" letter-spacing="1">
+              <line x1="120" y1="122" x2="392" y2="122" stroke="rgba(220,182,63,.4)" stroke-dasharray="3 4"/>
+              <text x="392" y="138" fill="#f0a37c">TOWN · LATE</text>
+            </g>
+          </svg>
+          <div style="display:grid;gap:10px;align-content:center">
+            <div class="trip"><b>TOWN · Walkabout route</b><span>Due 17:00 · assigned: team of 4</span><span class="st badge b-rust">late</span></div>
+            <div class="trip"><b>NORTH · Bilik gerakan visit</b><span>District DM 02 · tomorrow</span><span class="st badge">queued</span></div>
+            <div class="trip"><b>COAST · Poster run</b><span>Closed — materials delivered</span><span class="st badge b-gold">closed</span></div>
+            <div class="trip"><b>CENTRAL · Survey sweep</b><span>Leads see only own zone</span><span class="st badge">scoped</span></div>
+          </div>
+        </div>
+      </div>
+      <figcaption><b>Field deployment · teams by zone and polling district</b><span class="demo-tag">demo data, fictional</span></figcaption>
+    </figure>
+
+    <figure class="fig">
+      <div class="mock" aria-hidden="true">
+        <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="t">Expenses · spending cap</span><span style="margin-left:auto" class="demo-tag">demo data, fictional</span></div>
+        <div style="padding:18px;display:grid;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;font-family:'IBM Plex Mono',monospace">
+            <span style="font-size:.68rem;letter-spacing:.18em;color:#a6874a">STATUTORY CAP · RECORDED</span>
+            <span style="font-size:1.05rem;color:var(--paper)">RM 148,220.50 <span style="color:rgba(246,243,234,.5);font-size:.75rem">of RM 200,000.00</span></span>
+          </div>
+          <div style="height:10px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden"><i style="display:block;height:100%;width:74%;background:linear-gradient(90deg,#a6874a,#dcb63f)"></i></div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--muted)">Recorded in exact sen. Never blocked, never judged. Compliance advice stays with the election agent.</div>
+        </div>
+      </div>
+      <figcaption><b>Expenses · exact sen against the statutory cap</b><span class="demo-tag">demo data, fictional</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ WALL ============ -->
+<section class="wall" aria-labelledby="h-wall">
+  <div class="wrap">
+    <p class="k">02 — The wall</p>
+    <h2 id="h-wall">A campaign and an office answer to different duties.</h2>
+    <p class="lead">Political opinion is sensitive personal data. So Campaign GRID is built so that the two can never mix.</p>
+    <div class="wallvis" data-rev>
+      <div class="wall-diagram" aria-hidden="true">
+        <svg viewBox="0 0 560 300" style="display:block;width:100%;height:auto">
+          <defs>
+            <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <rect width="2.5" height="7" fill="#b3400f"/>
+            </pattern>
+          </defs>
+          <g font-family="IBM Plex Mono,monospace">
+            <rect x="20" y="52" width="220" height="170" rx="12" fill="#0f2444" stroke="rgba(220,182,63,.35)"/>
+            <text x="130" y="92" text-anchor="middle" fill="#dcb63f" font-size="13" letter-spacing="2">CAMPAIGN GRID</text>
+            <line x1="44" y1="112" x2="216" y2="112" stroke="rgba(255,255,255,.12)"/>
+            <text x="46" y="138" fill="#f6f3ea" font-size="11">six working jobs</text>
+            <text x="46" y="162" fill="#f6f3ea" font-size="11">campaign contacts</text>
+            <rect x="44" y="176" width="122" height="20" rx="4" fill="rgba(212,87,31,.18)" stroke="rgba(212,87,31,.6)"/>
+            <text x="105" y="190" text-anchor="middle" fill="#f0a37c" font-size="10">no voting-intent field</text>
+
+            <rect x="320" y="52" width="220" height="170" rx="12" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.14)" stroke-dasharray="5 5"/>
+            <text x="430" y="92" text-anchor="middle" fill="rgba(246,243,234,.55)" font-size="13" letter-spacing="2">ANY OFFICE SYSTEM</text>
+            <line x1="344" y1="112" x2="516" y2="112" stroke="rgba(255,255,255,.12)"/>
+            <text x="430" y="140" text-anchor="middle" fill="#f6f3ea" font-size="12">404</text>
+            <text x="430" y="162" text-anchor="middle" fill="rgba(246,243,234,.55)" font-size="10">the campaign area does not exist</text>
+
+            <rect x="272" y="26" width="16" height="222" rx="6" fill="url(#hatch)" stroke="rgba(246,243,234,.35)" stroke-width="1.5"/>
+            <text x="280" y="20" text-anchor="middle" fill="#f0a37c" font-size="10" letter-spacing="2">THE WALL</text>
+            <text x="280" y="268" text-anchor="middle" fill="rgba(246,243,234,.55)" font-size="9.5" letter-spacing="1">enforced by tests</text>
+          </g>
+        </svg>
+        <p class="cap demo-tag">separation diagram · schematic, not product imagery</p>
+      </div>
+      <div class="clauses">
+        <div class="clause"><span class="no">01</span><div><h3>No link to citizen records.</h3><p>Campaign contacts have no connection to any office database. This is enforced by tests, not by a policy document.</p></div></div>
+        <div class="clause"><span class="no">02</span><div><h3>No voting intent, anywhere.</h3><p>There is no field for it, not even an optional one, and no supporter estimates.</p></div></div>
+        <div class="clause"><span class="no">03</span><div><h3>Invisible to office deployments.</h3><p>On an office system the campaign area does not exist at all. It is not hidden or locked — it is simply not there.</p></div></div>
+        <div class="clause"><span class="no">04</span><div><h3>Facts, not legal advice.</h3><p>Spending is recorded against the statutory cap. It is never blocked and never judged. Compliance stays with the election agent.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LADDER ============ -->
+<section id="ladder" aria-labelledby="h-ladder">
+  <div class="wrap">
+    <p class="k">03 — The GRID family</p>
+    <h2 id="h-ladder">One ecosystem, from first community work to executive office.</h2>
+    <p style="margin-top:16px;color:var(--muted);max-width:60ch">GRID follows a person through their career. Each stage turns on only the workspace that stage needs.</p>
+    <ol class="ladder" style="list-style:none" data-rev>
+      <li class="lrow ghost"><span class="no">01</span><h3>GRID Personal</h3><p>Aspirants and community workers. Free.</p><span class="tag">Planned</span></li>
+      <li class="lrow ghost"><span class="no">02</span><h3>GRID Leader</h3><p>Branch and team leaders.</p><span class="tag">Planned</span></li>
+      <li class="lrow ghost"><span class="no">03</span><h3>Candidate Readiness</h3><p>Getting ready for a nomination.</p><span class="tag">Planned</span></li>
+      <li class="lrow here" aria-current="step"><span class="no">04</span><h3>Campaign GRID</h3><p>The appointed candidate and the election agent. Schedule, field, approval, media, expenses and incidents — for one seat, for the length of the campaign.</p><span class="tag">You are here</span></li>
+      <li class="lrow live"><span class="no">05</span><h3>Representative GRID</h3><p>Elected office. Live today as Johor GRID.</p><span class="tag">Live</span></li>
+      <li class="lrow ghost"><span class="no">06</span><h3>Executive GRID</h3><p>EXCO, ministers and mayors.</p><span class="tag">Planned</span></li>
+    </ol>
+    <p class="lnote">Only Campaign GRID and Representative GRID are available today. The other stages are planned and carry no date. A person's own record travels with them, while a campaign's supporter data never crosses into an office.</p>
+  </div>
+</section>
+
+<!-- ============ HOW ============ -->
+<section aria-labelledby="h-how">
+  <div class="wrap">
+    <p class="k">04 — Getting started</p>
+    <h2 id="h-how">Not a sign-up. We set it up with you.</h2>
+    <div class="how" data-rev>
+      <div><h3>Request</h3><p>The candidate or the funding organisation asks for an activation and names the seat.</p></div>
+      <div><h3>Configure</h3><p>Katalys sets up the seat's zones, team roles, the spending cap and the branding.</p></div>
+      <div><h3>Train</h3><p>Your election agent and team are walked through it before campaigning starts.</p></div>
+      <div><h3>Run</h3><p>The team works from one place, day to day, until polling day.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="activate" aria-labelledby="h-cta">
+  <div class="wrap">
+    <p class="k">05 — Request activation</p>
+    <h2 id="h-cta">Tell us the seat. We will take it from there.</h2>
+    <p style="margin-top:16px;color:var(--muted);max-width:58ch">Contact us any way you like. Activation is for an officially appointed candidate, with a named election agent.</p>
+    <div class="cta-grid">
+      <div class="direct">
+        <a class="btn btn-primary" id="wa-direct" href="#" hidden>Message us on WhatsApp</a>
+        <a class="btn btn-ghost" id="mail-direct" href="mailto:pmnilam@katalysmedia.asia?subject=Campaign%20GRID%20activation">Email pmnilam@katalysmedia.asia</a>
+        <a class="btn btn-ghost" data-demo href="#activate" hidden>See the live demo</a>
+        <small>The demo shows a fictional candidate. The public page is open to everyone. The team back end asks for a login, which we give you when you ask.</small>
+        <small>Or fill in the form. It writes the message for you to send.</small>
+      </div>
+      <form id="form" novalidate>
+        <label>Your name<input name="nama" autocomplete="name" required></label>
+        <label>You are a<select name="peranan"><option>Candidate</option><option>Election agent</option><option>Party or organisation</option><option>Other</option></select></label>
+        <label>Seat or constituency<input name="kerusi" placeholder="e.g. P.160 Johor Bahru"></label>
+        <label>Anything we should know<textarea name="mesej"></textarea></label>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="button" id="send-mail">Send by email</button>
+          <button class="btn btn-ghost" type="button" id="send-wa" hidden>Send by WhatsApp</button>
+        </div>
+        <p class="privacy">Nothing is sent from this page. The form only fills in a message in your own email or WhatsApp app. Please do not include voter or supporter details.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>&copy; Katalys Media · GRID product family</span>
+    <span>Campaign GRID stores no voter data.</span>
+  </div>
+</footer>
+
+<!-- sticky CTA rail -->
+<div class="rail" id="rail">
+  <span class="rk">Campaign GRID · stage 04</span>
+  <span class="rt">Activation by request, for an appointed candidate.</span>
+  <a class="btn btn-primary" href="#activate">Request activation</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+/* Contact settings. Leave WHATSAPP empty to hide the WhatsApp buttons.
+   Digits only, with country code, e.g. "60123456789". */
+const EMAIL = "pmnilam@katalysmedia.asia";
+const WHATSAPP = "";
+/* Address of the demo site (a separate deployment). Empty hides the demo buttons. */
+const DEMO_URL = location.hostname === "localhost" ? "http://localhost:8000" : "https://demo.campaign.grid.com";
+
+document.querySelectorAll("[data-demo]").forEach((a) => {
+  if (!DEMO_URL) return;
+  a.href = DEMO_URL; a.hidden = false;
+  a.target = "_blank"; a.rel = "noopener";
+});
+
+(function contact(){
+  const $ = (id) => document.getElementById(id);
+  const text = () => {
+    const f = new FormData($("form"));
+    return `Campaign GRID activation request\n\nName: ${f.get("nama")||""}\nRole: ${f.get("peranan")}\nSeat: ${f.get("kerusi")||""}\n\n${f.get("mesej")||""}`;
+  };
+  if (WHATSAPP) {
+    $("wa-direct").hidden = false;
+    $("wa-direct").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Hello, I would like to request a Campaign GRID activation.")}`;
+    $("send-wa").hidden = false;
+    $("send-wa").addEventListener("click", () => window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text())}`, "_blank", "noopener"));
+  }
+  $("send-mail").addEventListener("click", () => {
+    if (!$("form").reportValidity()) return;
+    location.href = `mailto:${EMAIL}?subject=${encodeURIComponent("Campaign GRID activation request")}&body=${encodeURIComponent(text())}`;
+  });
+})();
+
+/* Sticky CTA rail: appears after the hero, hides over the activation section.
+   Pure CSS classes — works without GSAP. */
+(function rail(){
+  const rail = document.getElementById("rail");
+  const hero = document.querySelector(".hero");
+  const cta = document.getElementById("activate");
+  const update = () => {
+    const heroGone = hero.getBoundingClientRect().bottom < innerHeight * 0.55;
+    const ctaTop = cta.getBoundingClientRect().top;
+    const onCta = ctaTop < innerHeight * 0.35;
+    rail.classList.toggle("on", heroGone && !onCta);
+  };
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+  update();
+})();
+
+/* Motion. If GSAP fails to load, everything stays visible. */
+(function motion(){
+  if (typeof gsap === "undefined" || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.set(".hpanel > *", { opacity: 0, y: 22 });
+  gsap.set(".hboard > *", { opacity: 0, y: 18 });
+  gsap.timeline({ defaults: { ease: "power3.out" } })
+    .to(".hpanel > *", { opacity: 1, y: 0, duration: .7, stagger: .09 })
+    .to(".hboard > *", { opacity: 1, y: 0, duration: .6, stagger: .08 }, "-=.5")
+    .from(".slots .slot .nm", { opacity: 0, stagger: .06, duration: .4 }, "-=.3")
+    .from(".zone-list .zone .bar i", { scaleX: 0, transformOrigin: "0 0", duration: .6, stagger: .07 }, "-=.2");
+
+  gsap.set("[data-rev] > *", { opacity: 0, y: 34 });
+  ScrollTrigger.batch("[data-rev] > *", {
+    start: "top 88%",
+    onEnter: (b) => gsap.to(b, { opacity: 1, y: 0, duration: .7, stagger: .08, ease: "power2.out" })
+  });
+})();
+</script>
+</body>
+</html>
