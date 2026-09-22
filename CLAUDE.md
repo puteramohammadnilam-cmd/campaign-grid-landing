@@ -24,3 +24,6 @@ Check `Decisions/` before changing scope. Positioning source: `~/Projects/grid-e
 - See `DESIGN-NOTES.md` for the delivered scope, checks and pre-deployment settings. No deployment has been performed.
 - Favicon: `brand/favicon-2x2.svg` (2×2 grid, fourth cell filled, bolder cells) is embedded as the tab icon in both pages. The full 3×3 mark is unreadable at 16 px.
 - Entry page is the Malay one (`campaign-grid.ms.html`); the English page is the twin behind the EN link. When a site root exists, serve the Malay page as `index.html`.
+
+## Live
+https://xavedrsai.github.io/campaign-grid-landing/ (GitHub Pages, source: `docs/`, branch `main`). `docs/campaign-grid.html` and `docs/campaign-grid.ms.html` are plain copies of `landing-pages/`; when either changes, copy it into `docs/` again and push (see 'ship it' below).
