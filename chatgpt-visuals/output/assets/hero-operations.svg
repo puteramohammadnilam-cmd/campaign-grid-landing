@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 760" role="img" aria-label="Abstract campaign operations map with schedule, route and approval panels">
+  <defs>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="#dcb63f" opacity=".2"/></pattern>
+    <linearGradient id="zoneA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#173756"/><stop offset="1" stop-color="#0d1f38"/></linearGradient>
+    <linearGradient id="zoneB" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#b3400f" stop-opacity=".68"/><stop offset="1" stop-color="#d4571f" stop-opacity=".2"/></linearGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <rect width="920" height="760" rx="36" fill="#071426"/>
+  <rect x="1" y="1" width="918" height="758" rx="35" fill="none" stroke="#354b64" stroke-width="2"/>
+  <path d="M62 83H858M62 677H858" stroke="#354b64" stroke-width="2"/>
+  <rect x="54" y="76" width="812" height="608" fill="url(#dots)"/>
+  <g opacity=".92">
+    <path d="M84 172 254 116 369 197 326 346 144 333Z" fill="url(#zoneA)" stroke="#6b7f96" stroke-width="2"/>
+    <path d="M144 333 326 346 410 458 318 615 112 568Z" fill="#102540" stroke="#6b7f96" stroke-width="2"/>
+    <path d="M369 197 522 146 573 272 476 376 326 346Z" fill="#132d49" stroke="#6b7f96" stroke-width="2"/>
+    <path d="M326 346 476 376 488 536 318 615 410 458Z" fill="url(#zoneB)" stroke="#d4571f" stroke-width="2"/>
+  </g>
+  <path class="route" d="M148 251C229 217 267 286 345 298S427 344 451 434 390 527 334 553" fill="none" stroke="#dcb63f" stroke-width="5" stroke-linecap="round" stroke-dasharray="8 16"/>
+  <g fill="#dcb63f" stroke="#071426" stroke-width="5"><rect x="135" y="238" width="24" height="24"/><rect x="333" y="286" width="24" height="24"/><rect x="439" y="422" width="24" height="24"/><rect x="322" y="541" width="24" height="24"/></g>
+  <g transform="translate(590 112)">
+    <rect width="260" height="164" rx="12" fill="#102540" stroke="#60758d" stroke-width="2"/>
+    <path d="M0 48H260" stroke="#60758d" stroke-width="2"/>
+    <rect x="24" y="22" width="52" height="8" fill="#dcb63f"/>
+    <g fill="#173756"><rect x="24" y="73" width="56" height="56"/><rect x="92" y="73" width="56" height="56"/><rect x="160" y="73" width="56" height="56"/></g>
+    <rect x="92" y="73" width="56" height="56" fill="#dcb63f"/>
+    <rect x="174" y="91" width="52" height="8" fill="#b8c3cf" opacity=".55"/>
+  </g>
+  <g transform="translate(560 324)">
+    <rect width="290" height="250" rx="12" fill="#0d1f38" stroke="#60758d" stroke-width="2"/>
+    <rect x="24" y="24" width="88" height="9" fill="#dcb63f"/>
+    <g transform="translate(24 64)">
+      <rect width="242" height="42" rx="5" fill="#173756"/><rect x="14" y="14" width="14" height="14" fill="#dcb63f"/><rect x="44" y="14" width="122" height="7" fill="#b8c3cf" opacity=".7"/>
+      <rect y="56" width="242" height="42" rx="5" fill="#173756"/><rect x="14" y="70" width="14" height="14" fill="none" stroke="#dcb63f" stroke-width="2"/><rect x="44" y="70" width="154" height="7" fill="#b8c3cf" opacity=".7"/>
+      <rect y="112" width="242" height="42" rx="5" fill="#173756"/><rect x="14" y="126" width="14" height="14" fill="none" stroke="#dcb63f" stroke-width="2"/><rect x="44" y="126" width="105" height="7" fill="#b8c3cf" opacity=".7"/>
+    </g>
+  </g>
+  <g class="selected" transform="translate(742 608)" fill="#dcb63f">
+    <rect x="0" y="0" width="18" height="18" fill="none" stroke="#dcb63f" stroke-width="4"/><rect x="28" y="0" width="18" height="18" fill="none" stroke="#dcb63f" stroke-width="4"/><rect x="56" y="0" width="18" height="18" fill="none" stroke="#dcb63f" stroke-width="4"/>
+    <rect x="-2" y="26" width="22" height="22"/><rect x="28" y="28" width="18" height="18" fill="none" stroke="#dcb63f" stroke-width="4"/><rect x="56" y="28" width="18" height="18" fill="none" stroke="#dcb63f" stroke-width="4"/>
+    <rect x="0" y="56" width="18" height="18" fill="none" stroke="#dcb63f" stroke-width="4"/><rect x="28" y="56" width="18" height="18" fill="none" stroke="#dcb63f" stroke-width="4"/><rect x="56" y="56" width="18" height="18" fill="none" stroke="#dcb63f" stroke-width="4"/>
+  </g>
+  <circle cx="473" cy="446" r="68" fill="#d4571f" opacity=".18" filter="url(#soft)"/>
+  <style>
+    .route{animation:route 7s linear infinite}.selected{transform-origin:779px 645px;animation:select 3.8s ease-in-out infinite}
+    @keyframes route{to{stroke-dashoffset:-96}}@keyframes select{0%,100%{opacity:.72}50%{opacity:1}}
+    @media(prefers-reduced-motion:reduce){.route,.selected{animation:none}}
+  </style>
+</svg>
