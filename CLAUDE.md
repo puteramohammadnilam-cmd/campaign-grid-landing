@@ -26,4 +26,6 @@ Check `Decisions/` before changing scope. Positioning source: `~/Projects/grid-e
 - Entry page is the Malay one (`campaign-grid.ms.html`); the English page is the twin behind the EN link. When a site root exists, serve the Malay page as `index.html`.
 
 ## Live
-https://xavedrsai.github.io/campaign-grid-landing/ (GitHub Pages, source: `docs/`, branch `main`). `docs/campaign-grid.html` and `docs/campaign-grid.ms.html` are plain copies of `landing-pages/`; when either changes, copy it into `docs/` again and push (see 'ship it' below).
+https://puteramohammadnilam-cmd.github.io/campaign-grid-landing/ (GitHub Pages, source: `docs/`, branch `main`, account `puteramohammadnilam-cmd` — same account as smart-dun). `docs/campaign-grid.html` and `docs/campaign-grid.ms.html` are plain copies of `landing-pages/`; when either changes, copy it into `docs/` again and push.
+
+An earlier push under the `xavedrsai` account (wrong account) is still at https://github.com/xavedrsai/campaign-grid-landing — delete it yourself if you don't want it kept: `gh repo delete xavedrsai/campaign-grid-landing --yes` (after `gh auth switch --user xavedrsai`).
